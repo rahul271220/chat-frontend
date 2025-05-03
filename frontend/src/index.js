@@ -1,17 +1,23 @@
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import { GoogleOAuthProvider } from '@react-oauth/google'; 
+import { AuthProvider } from './context/authcontext.js';
+import App from './App';  // Importing default export from App.js
 import reportWebVitals from './reportWebVitals';
-
+import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <GoogleOAuthProvider clientId="378151057788-vrrj0qj230eencv931ivslcfdo88a821.apps.googleusercontent.com">
+    <React.StrictMode>
+      <AuthProvider>
+      <BrowserRouter>
+      <App />
+      </BrowserRouter>
+      </AuthProvider>
+    </React.StrictMode>
+  </GoogleOAuthProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

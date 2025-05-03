@@ -1,13 +1,34 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Container with Default Margin */
+.custom-container {
+  margin-left: 16px; /* Custom margin-left for all screens */
+  margin-right: 16px; /* Custom margin-right for all screens */
+  @apply mx-4; /* Default margin (1rem) for all screens */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* For screens with a minimum width of 640px (sm and above) */
+@media (min-width: 640px) {
+  .custom-container {
+    margin-left: 16px; /* Custom margin-left for sm and above */
+    margin-right: 16px; /* Custom margin-right for sm and above */
+    @apply mx-8; /* Apply mx-8 for sm and above (2rem) */
+  }
+}
+
+/* For screens with a minimum width of 768px (md and above) */
+@media (min-width: 768px) {
+  .custom-container {
+    margin-left: 16px; /* Custom margin-left for md and above */
+    margin-right: 16px; /* Custom margin-right for md and above */
+    @apply mx-12; /* Apply mx-12 for md and above (3rem) */
+  }
+}
+
+/* Optionally, you can add custom classes for other purposes */
+.custom-text {
+  @apply text-center text-lg font-semibold; /* Example for text styling */
 }
