@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Routes, Route } from 'react-router-dom';
+import {  Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import Login from './pages/login';
 import ProtectedRoute from './pages/protectedroutes';
@@ -8,13 +8,31 @@ import NotFound from './pages/notfound';
 import Autocomplete from './pages/autocomplete';
 import { useState } from 'react';
 import Progressbar  from './pages/progressbar'
+import Userlogin from './pages/userLogin';
+import Modalpopup  from './pages/modal';
+import BasicCalendar from './pages/calendar';
+import ProgressClass from './pages/classprogressbar';
+import SpinnerLoader from './pages/LoadingHoc';
+import ProfileForm from './pages/ProfileForm';
+
 
 const App = () => {
+
+
+  const [openModal, setModalView] = useState(false);
   const navigate = useNavigate();
   const navigateToLogin = () => {
     navigate('/');
   }
   const [selectedValue, setSelectedValue] = useState("");
+
+  const [classcounter ,setclassCounter]= useState(0);
+
+  const Calenderwithspinner = SpinnerLoader(BasicCalendar);
+  function setcounterclass(value) {
+    console.log(value);
+    setclassCounter(value);
+  }
   function handleSelect(value) {
     console.log(value);
     console.log(selectedValue);
@@ -885,28 +903,48 @@ const App = () => {
     },
   ];
 
+
   function progressCompleted(message) {
+    setModalView(true);
     console.log('hre');
     console.log(message);
     fetch('https://docquity.com/detect/whatsmyip.php', { responseType: 'text' }).then(res => res.text())
     .then(body => {
       console.log(body);
+    }).catch(err => {
+      console.log(err);
     })
+  }
+  function hideModal() {
+    console.log('modal -hide');
+    setModalView(false);
   }
   return (
     <div className="custom-container">
+      {classcounter}
+      <ProgressClass updateCounter={setcounterclass}></ProgressClass>
       <div className="p-4">
+        {/* {
+          openModal &&
+        <Modalpopup hideModal={hideModal} header={'this is just for testing'} content={'This 3 BHK for rent in Safdarjung Enclave is perfect for families as it is spacious and comfortable with an area of 1200 sq. ft. This semi furnished apartment is at a great price of just 45,000 rupees. This North facing home is on the 1st floor & comes with a parking lot for a bike.With premium amenities such as servant quarters, air conditioner, sewage treatment plant & gas pipeline this home provides you with many added benefits.With premium amenities such as servant quarters, air conditioner, sewage treatment plant & gas pipeline this home provides you with many added benefits.'
+} ></Modalpopup>
+} */}
+
+   {/* <BasicCalendar></BasicCalendar> */}
       <Autocomplete
         onSelect={handleSelect}
         suggestion={countryList}
       ></Autocomplete>
+      <ProfileForm></ProfileForm>
+<Calenderwithspinner loading={openModal}></Calenderwithspinner>
       <Progressbar onComplete={progressCompleted} duration={'5000'}></Progressbar>
         <h1 className="text-2xl">Welcome to my React app styled with Tailwind CSS!</h1>
         <button onClick={navigateToLogin}>Login</button>
         <p>Start building with Tailwind CSS now.</p>
       </div>
         <Routes>
-          <Route path="/" element={<Login />} /> {/* Only accessible at root */}
+          {/* <Route path="/" element={<Login />} /> Only accessible at root */}
+          <Route path='/' element={<Userlogin></Userlogin>}></Route>
           <Route
             path="/dashboard"
             element={
@@ -915,7 +953,8 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
+          <Route path="not-found" element={<NotFound />} /> {/* Only accessible at root */}
+          <Route path="*" element={<Navigate to="/not-found" replace></Navigate>} /> {/* Catch-all route */}
         </Routes>
     </div>
   );

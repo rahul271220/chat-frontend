@@ -20,7 +20,6 @@ export default function Autocomplete({ suggestion, onSelect }) {
       setRenderList(suggestion);
       return;
     }
-
     setRenderList(
       suggestion.filter((item) =>
         item.country.toLowerCase().includes(query.toLowerCase())
